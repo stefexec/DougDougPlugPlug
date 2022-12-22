@@ -1,0 +1,22 @@
+name: DougDougPlugPlug
+version: '${version}'
+main: de.gurkenwerfer.dougdougplugplug.DougDougPlugPlug
+api-version: 1.19
+authors: [ Gurkenwerfer_ ]
+description: Custom Plugin for the DougDoug Minecraft Server
+commands:
+  buildmode:
+    description: Enables or disables the build mode
+    usage: /<command>
+    permissions: dougdougplugplug.buildmode
+    aliases:
+      - bm
+      - diet-op
+permissions:
+  dougdougplugplug.buildmode:
+    description: Allows Build Mode Toggle
+  dougdougplugplug.buildmode.admin:
+    description: Wildcard permission
+    default: op
+    children:
+      dougdougplugplug.buildmode: true
