@@ -8,15 +8,15 @@ commands:
   buildmode:
     description: Enables or disables the build mode
     usage: /<command>
-    permissions: dougdougplugplug.buildmode
+    permissions: dougdougplugplug.buildmode.allow
     aliases:
       - bm
       - diet-op
 permissions:
-  dougdougplugplug.buildmode:
+  dougdougplugplug.buildmode.allow:
     description: Allows Build Mode Toggle
   dougdougplugplug.buildmode.admin:
     description: Wildcard permission
     default: op
     children:
-      dougdougplugplug.buildmode: true
+      dougdougplugplug.buildmode.allow: false

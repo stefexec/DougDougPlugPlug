@@ -11,25 +11,32 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 
-public class BanMenuUtils {
+public class buildMenuUtils {
+
+    static String perm = "dougdougplugplug.buildmode.allow";
 
     public static void openAddMenu(Player player){
 
-        ArrayList<Player> list = new ArrayList<Player>(player.getServer().getOnlinePlayers());
+        //ArrayList<Player> list = new ArrayList<Player>(player.getServer().getOnlinePlayers());
+        ArrayList<Player> list = new ArrayList<>();
+
+        Bukkit.getOnlinePlayers().stream()
+                .filter(p -> !(p.hasPermission(perm)))
+                .forEach(list::add);
 
         Inventory addgui = Bukkit.createInventory(player, 45, ChatColor.BLUE + "Add Player List");
 
-        for (int i = 0; i < list.size(); i++){
+        for (Player value : list) {
             ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
 
             SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
 
             assert skullMeta != null;
-            skullMeta.setDisplayName(list.get(i).getDisplayName());
+            skullMeta.setDisplayName(value.getDisplayName());
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GOLD + "Player Health: " + ChatColor.RED + list.get(i).getHealth());
-            lore.add(ChatColor.GOLD + "EXP: " + ChatColor.AQUA + list.get(i).getExp());
-            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(list.get(i).getUniqueId()));
+            lore.add(ChatColor.GOLD + "Player Health: " + ChatColor.RED + value.getHealth());
+            lore.add(ChatColor.GOLD + "EXP: " + ChatColor.AQUA + value.getExp());
+            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(value.getUniqueId()));
             skullMeta.setLore(lore);
             playerHead.setItemMeta(skullMeta);
 
@@ -40,20 +47,24 @@ public class BanMenuUtils {
 
     public static void openRemoveMenu(Player player){
 
-        ArrayList<Player> list = new ArrayList<Player>(player.getServer().getOnlinePlayers());
+        ArrayList<Player> list = new ArrayList<>();
+
+        Bukkit.getOnlinePlayers().stream()
+                .filter(p -> p.hasPermission(perm))
+                .forEach(list::add);
 
         Inventory removegui = Bukkit.createInventory(player, 45, ChatColor.RED + "Remove Player List");
 
-        for (int i = 0; i < list.size(); i++){
-            ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
+        for (Player value : list) {
+            ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
 
             assert skullMeta != null;
-            skullMeta.setDisplayName(list.get(i).getDisplayName());
+            skullMeta.setDisplayName(value.getDisplayName());
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GOLD + "Player Health: " + ChatColor.RED + list.get(i).getHealth());
-            lore.add(ChatColor.GOLD + "EXP: " + ChatColor.AQUA + list.get(i).getExp());
-            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(list.get(i).getUniqueId()));
+            lore.add(ChatColor.GOLD + "Player Health: " + ChatColor.RED + value.getHealth());
+            lore.add(ChatColor.GOLD + "EXP: " + ChatColor.AQUA + value.getExp());
+            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(value.getUniqueId()));
             skullMeta.setLore(lore);
             playerHead.setItemMeta(skullMeta);
 

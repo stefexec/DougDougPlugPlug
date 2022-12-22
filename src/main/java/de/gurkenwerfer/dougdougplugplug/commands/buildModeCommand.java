@@ -2,7 +2,7 @@ package de.gurkenwerfer.dougdougplugplug.commands;
 
 import de.gurkenwerfer.dougdougplugplug.DougDougPlugPlug;
 import de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig;
-import de.gurkenwerfer.dougdougplugplug.utils.BanMenuUtils;
+import de.gurkenwerfer.dougdougplugplug.utils.buildMenuUtils;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.data.DataMutateResult;
 import net.luckperms.api.model.user.User;
@@ -37,7 +37,7 @@ public class buildModeCommand implements CommandExecutor {
             String isInBuildModeString = isInBuildMode.get(new NamespacedKey(DougDougPlugPlug.getPlugin(), "inBuildMode"), PersistentDataType.STRING);
 
             assert p != null;
-            if (p.hasPermission("dougdougplugplug.buildmode")) {
+            if (p.hasPermission("dougdougplugplug.buildmode.allow") || p.hasPermission("dougdougplugplug.buildmode.admin") || p.isOp()) {
 
                 if (args.length == 0) {
 
@@ -62,15 +62,15 @@ public class buildModeCommand implements CommandExecutor {
                                 DataMutateResult result = user.data().add(node);
 
                                 if (result.wasSuccessful()) {
-                                    sender.sendMessage(user.getUsername() + " now has permission \u00A7a" + perm + "!");
+                                    sender.sendMessage(user.getUsername() + " \u00A77now has permission \u00A7a" + perm + "!");
                                 } else {
                                     sender.sendMessage(ChatColor.GOLD + user.getUsername() + " already has that permission!");
                                 }
                             });
                         }
-
                     } else {
                         isInBuildMode.set(new NamespacedKey(DougDougPlugPlug.getPlugin(), "inBuildMode"), PersistentDataType.STRING, "false");
+
                         p.sendMessage("\u00A7cBuildmode has been disabled!");
 
                         for (String perm : buildModePermConfig.get().getStringList(p.getName())) {
@@ -89,7 +89,7 @@ public class buildModeCommand implements CommandExecutor {
                                 DataMutateResult result = user.data().remove(node);
 
                                 if (result.wasSuccessful()) {
-                                    sender.sendMessage("\u00A77Permission \u00A7a" + perm + "\u00A77 has been removed!");
+                                    sender.sendMessage("\u00A77Permission \u00A76" + perm + "\u00A77 has been removed!");
                                 } else {
                                     sender.sendMessage(ChatColor.GOLD + user.getUsername() + " already has that permission!");
                                 }
@@ -98,27 +98,20 @@ public class buildModeCommand implements CommandExecutor {
                     }
                 } else if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("help")) {
-
-                        p.sendMessage("This command gives you access to all the permissions Roach allows you to have.");
-
+                        p.sendMessage("Use <add|remove> to add or remove players from the buildmode list.");
                     } else if (args[0].equalsIgnoreCase("reload")) {
-
                         p.sendMessage(ChatColor.DARK_RED + "BuildMode plugin reloaded");
                         buildModePermConfig.reloadBuildModeConfig();
-
                     } else if (args[0].equalsIgnoreCase("add") && p.hasPermission("dougdougplugplug.buildmode.admin")) {
-
-                        BanMenuUtils.openAddMenu(p);
-
+                        buildMenuUtils.openAddMenu(p);
                     } else if (args[0].equalsIgnoreCase("remove") && p.hasPermission("dougdougplugplug.buildmode.admin")) {
-
-                        BanMenuUtils.openRemoveMenu(p);
+                        buildMenuUtils.openRemoveMenu(p);
+                    } else {
+                        p.sendMessage(ChatColor.RED + "These aren't the Droids you're looking for...");
                     }
-
                 } else {
                     p.sendMessage("\u00A7cPlease use \u00A77/buildmode");
                 }
-
             } else {
                 p.sendMessage("\u00A7cYou do not have permission to use this command!");
             }
