@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class BanInventoryListener implements Listener {
 
-    private DougDougPlugPlug plugin;
+    final private DougDougPlugPlug plugin;
     private final LuckPerms luckPerms;
 
     public BanInventoryListener(DougDougPlugPlug plugin, LuckPerms luckPerms) {
@@ -41,23 +41,16 @@ public class BanInventoryListener implements Listener {
             }
 
         }else if(e.getView().getTitle().equalsIgnoreCase("Give BuildMode Permissions") && e.getCurrentItem() != null){
-            switch(Objects.requireNonNull(e.getCurrentItem()).getType()){
-                case BARRIER:
-                    BanMenuUtils.openAddMenu(player);
-                    break;
-                case WOODEN_AXE:
-
+            switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
+                case BARRIER -> BanMenuUtils.openAddMenu(player);
+                case WOODEN_AXE -> {
                     String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
-
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
-
                     if (!po.hasPlayedBefore()) {
                         player.sendMessage(ChatColor.RED + name + " has never joined the server!");
                         return;
                     }
-
                     Node node = Node.builder(perm).build();
-
                     luckPerms.getUserManager().modifyUser(po.getUniqueId(), (User user) -> {
 
                         DataMutateResult result = user.data().add(node);
@@ -68,13 +61,12 @@ public class BanInventoryListener implements Listener {
                             player.sendMessage(ChatColor.GOLD + user.getUsername() + " already has that permission!");
                         }
                     });
-
                     player.sendMessage(ChatColor.GREEN + "Gave " + player.getName() + " Build Mode permission!");
-                    break;
+                }
             }
-        }
 
-        e.setCancelled(true);
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -91,23 +83,16 @@ public class BanInventoryListener implements Listener {
             }
 
         }else if(e.getView().getTitle().equalsIgnoreCase("Revoke BuildMode Permissions") && e.getCurrentItem() != null){
-            switch(Objects.requireNonNull(e.getCurrentItem()).getType()){
-                case BARRIER:
-                    BanMenuUtils.openRemoveMenu(player);
-                    break;
-                case WOODEN_AXE:
-
+            switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
+                case BARRIER -> BanMenuUtils.openRemoveMenu(player);
+                case WOODEN_AXE -> {
                     String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
-
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
-
                     if (!po.hasPlayedBefore()) {
                         player.sendMessage(ChatColor.RED + name + " has never joined the server!");
                         return;
                     }
-
                     Node node = Node.builder(perm).build();
-
                     luckPerms.getUserManager().modifyUser(po.getUniqueId(), (User user) -> {
 
                         DataMutateResult result = user.data().remove(node);
@@ -118,13 +103,10 @@ public class BanInventoryListener implements Listener {
                             player.sendMessage(ChatColor.GOLD + user.getUsername() + " never had that permission!");
                         }
                     });
-
                     player.sendMessage(ChatColor.RED + "Revoked " + po.getName() + "'s Build Mode access!");
-                    break;
+                }
             }
+            e.setCancelled(true);
         }
-
-        e.setCancelled(true);
     }
-
 }
