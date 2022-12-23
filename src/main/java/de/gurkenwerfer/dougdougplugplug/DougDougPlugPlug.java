@@ -11,22 +11,30 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class DougDougPlugPlug extends JavaPlugin {
-
+    public static DougDougPlugPlug getPlugin() {
+        return plugin;
+    }
     private static DougDougPlugPlug plugin;
     private LuckPerms luckPerms;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getLogger().info("\u00A73 DougDougPlugPlug has been enabled!");
+        getLogger().info("\u00A73DougDougPlugPlug has been enabled!");
 
         plugin = this;
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         ArrayList<String> perms = new ArrayList<>();
-        perms.add("cmi.worldlimit.gamemode.bypass");
+        perms.add("cmi.command");
+        perms.add("cmi.command.gm");
+        perms.add("cmi.command.creative");
+        perms.add("cmi.command.survival");
+        perms.add("cmi.command.gm.creative");
+        perms.add("cmi.command.gm.survival");
+        perms.add("cmi.command.fly");
+        perms.add("cmi.command.allowflight");
         perms.add("cmi.command.afk.kickbypass");
-        perms.add("cmi.inventoryhat");
 
         Objects.requireNonNull(getCommand("buildmode")).setExecutor(new buildModeCommand(this, this.luckPerms));
         getServer().getPluginManager().registerEvents(new buildModeListener(), this);
@@ -44,16 +52,11 @@ public final class DougDougPlugPlug extends JavaPlugin {
         de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.get().addDefault("Gurkenwerfer_", perms);
         de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.get().options().copyDefaults(true);
         de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.save();
-
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        getLogger().info("\u00A75DougDougPlugPlug has been disabled!");
     }
-
-    public static DougDougPlugPlug getPlugin() {
-        return plugin;
-    }
-
 }

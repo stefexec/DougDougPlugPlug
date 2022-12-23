@@ -17,7 +17,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.Objects;
 
 public class buildInventoryListener implements Listener {
-
     final private DougDougPlugPlug plugin;
     private final LuckPerms luckPerms;
 
@@ -25,7 +24,6 @@ public class buildInventoryListener implements Listener {
         this.plugin = plugin;
         this.luckPerms = luckPerms;
     }
-
     String perm = "dougdougplugplug.buildmode.allow";
 
     @EventHandler
@@ -34,12 +32,9 @@ public class buildInventoryListener implements Listener {
 
         if (e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE + "Add Player List") && e.getCurrentItem() != null){
             if (Objects.requireNonNull(e.getCurrentItem()).getType() == Material.PLAYER_HEAD){
-
                 Player whoToAdd = DougDougPlugPlug.getPlugin().getServer().getPlayerExact(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
-
                 buildMenuUtils.openPlayerAddMenu(player, whoToAdd);
             }
-
         }else if(e.getView().getTitle().equalsIgnoreCase("Give BuildMode Permissions") && e.getCurrentItem() != null){
             switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
                 case BARRIER -> buildMenuUtils.openAddMenu(player);
@@ -64,7 +59,6 @@ public class buildInventoryListener implements Listener {
                     player.sendMessage(ChatColor.GREEN + "Gave " + po.getName() + " Build Mode permission!");
                 }
             }
-
             e.setCancelled(true);
         }
     }
