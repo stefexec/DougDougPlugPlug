@@ -1,6 +1,7 @@
 package de.gurkenwerfer.dougdougplugplug.listeners;
 
 import de.gurkenwerfer.dougdougplugplug.DougDougPlugPlug;
+import de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig;
 import de.gurkenwerfer.dougdougplugplug.utils.buildMenuUtils;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.data.DataMutateResult;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class buildInventoryListener implements Listener {
@@ -38,7 +40,7 @@ public class buildInventoryListener implements Listener {
         }else if(e.getView().getTitle().equalsIgnoreCase("Give BuildMode Permissions") && e.getCurrentItem() != null){
             switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
                 case BARRIER -> buildMenuUtils.openAddMenu(player);
-                case WOODEN_AXE -> {
+                case EMERALD_BLOCK -> {
                     String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
                     if (!po.hasPlayedBefore()) {
@@ -57,6 +59,20 @@ public class buildInventoryListener implements Listener {
                         }
                     });
                     player.sendMessage(ChatColor.GREEN + "Gave " + po.getName() + " Build Mode permission!");
+
+                    ArrayList<String> defaultPerms = new ArrayList<>();
+                    defaultPerms.add("cmi.command");
+                    defaultPerms.add("cmi.command.gm");
+                    defaultPerms.add("cmi.command.creative");
+                    defaultPerms.add("cmi.command.survival");
+                    defaultPerms.add("cmi.command.gm.creative");
+                    defaultPerms.add("cmi.command.gm.survival");
+                    defaultPerms.add("cmi.command.fly");
+                    defaultPerms.add("cmi.command.allowflight");
+
+                    buildModePermConfig.get().set(po.getName(), defaultPerms);
+                    buildModePermConfig.save();
+
                 }
             }
             e.setCancelled(true);
@@ -79,7 +95,7 @@ public class buildInventoryListener implements Listener {
         }else if(e.getView().getTitle().equalsIgnoreCase("Revoke BuildMode Permissions") && e.getCurrentItem() != null){
             switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
                 case BARRIER -> buildMenuUtils.openRemoveMenu(player);
-                case WOODEN_AXE -> {
+                case REDSTONE_BLOCK -> {
                     String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
                     if (!po.hasPlayedBefore()) {
@@ -97,6 +113,7 @@ public class buildInventoryListener implements Listener {
                             player.sendMessage(ChatColor.GOLD + user.getUsername() + " never had that permission!");
                         }
                     });
+                    player.performCommand("cmi gm 0 " + po.getName());
                     player.sendMessage(ChatColor.RED + "Revoked " + po.getName() + "'s Build Mode access!");
                 }
             }

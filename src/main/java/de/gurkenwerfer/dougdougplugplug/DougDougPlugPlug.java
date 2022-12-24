@@ -1,6 +1,7 @@
 package de.gurkenwerfer.dougdougplugplug;
 
 import de.gurkenwerfer.dougdougplugplug.commands.buildModeCommand;
+import de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig;
 import de.gurkenwerfer.dougdougplugplug.listeners.buildInventoryListener;
 import de.gurkenwerfer.dougdougplugplug.listeners.buildModeListener;
 import de.gurkenwerfer.dougdougplugplug.utils.buildModeCommandTabCompleter;
@@ -48,10 +49,10 @@ public final class DougDougPlugPlug extends JavaPlugin {
         saveDefaultConfig();
 
         // Setup config file for buildmode
-        de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.setup();
-        de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.get().addDefault("Gurkenwerfer_", perms);
-        de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.get().options().copyDefaults(true);
-        de.gurkenwerfer.dougdougplugplug.filemanager.buildModePermConfig.save();
+        buildModePermConfig.setup();
+        buildModePermConfig.get().addDefault("Gurkenwerfer_", perms);
+        buildModePermConfig.get().options().copyDefaults(true);
+        buildModePermConfig.save();
     }
 
     @Override

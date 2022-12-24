@@ -17,7 +17,6 @@ public class buildMenuUtils {
 
     public static void openAddMenu(Player player){
 
-        //ArrayList<Player> list = new ArrayList<Player>(player.getServer().getOnlinePlayers());
         ArrayList<Player> list = new ArrayList<>();
 
         Bukkit.getOnlinePlayers().stream()
@@ -79,7 +78,7 @@ public class buildMenuUtils {
 
         Inventory addPlayerMenu = Bukkit.createInventory(player, 9, "Give BuildMode Permissions");
 
-        ItemStack addItem = new ItemStack(Material.WOODEN_AXE, 1);
+        ItemStack addItem = new ItemStack(Material.EMERALD_BLOCK, 1);
         ItemMeta ban_meta = addItem.getItemMeta();
         assert ban_meta != null;
         ban_meta.setDisplayName(ChatColor.DARK_GREEN + "Add");
@@ -110,7 +109,7 @@ public class buildMenuUtils {
 
         Inventory removePlayerMenu = Bukkit.createInventory(player, 9, "Revoke BuildMode Permissions");
 
-        ItemStack removeItem = new ItemStack(Material.WOODEN_AXE, 1);
+        ItemStack removeItem = new ItemStack(Material.REDSTONE_BLOCK, 1);
         ItemMeta ban_meta = removeItem.getItemMeta();
         assert ban_meta != null;
         ban_meta.setDisplayName(ChatColor.DARK_RED + "Remove");
