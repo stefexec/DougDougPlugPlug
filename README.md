@@ -26,7 +26,7 @@
 * [Getting Started](#getting-started)
     * [Installation](#installation)
 * [Usage](#usage)
-* * [Discord Webhook](#discord-webhook)
+ * [Discord Webhook](#discord-webhook)
 * [Contributing](#contributing)
 * [License](#license)
 * [Acknowledgements](#acknowledgements)
