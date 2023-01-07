@@ -18,6 +18,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static org.bukkit.Bukkit.getLogger;
+
 public class buildInventoryListener implements Listener {
     final private DougDougPlugPlug plugin;
     private final LuckPerms luckPerms;
@@ -34,14 +36,15 @@ public class buildInventoryListener implements Listener {
 
         if (e.getView().getTitle().equalsIgnoreCase(ChatColor.BLUE + "Add Player List") && e.getCurrentItem() != null){
             if (Objects.requireNonNull(e.getCurrentItem()).getType() == Material.PLAYER_HEAD){
-                Player whoToAdd = DougDougPlugPlug.getPlugin().getServer().getPlayerExact(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
+                Player whoToAdd = DougDougPlugPlug.getPlugin().getServer().getPlayerExact(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName().split(" ")[1]));
                 buildMenuUtils.openPlayerAddMenu(player, whoToAdd);
             }
         }else if(e.getView().getTitle().equalsIgnoreCase("Give BuildMode Permissions") && e.getCurrentItem() != null){
             switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
                 case BARRIER -> buildMenuUtils.openAddMenu(player);
                 case EMERALD_BLOCK -> {
-                    String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
+                    String[] name_whole = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName().split(" ");
+                    String name = name_whole[1];
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
                     if (!po.hasPlayedBefore()) {
                         player.sendMessage(ChatColor.RED + name + " has never joined the server!");
@@ -87,7 +90,7 @@ public class buildInventoryListener implements Listener {
 
             if (Objects.requireNonNull(e.getCurrentItem()).getType() == Material.PLAYER_HEAD){
 
-                Player whoToRemove = DougDougPlugPlug.getPlugin().getServer().getPlayerExact(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
+                Player whoToRemove = DougDougPlugPlug.getPlugin().getServer().getPlayerExact(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName().split(" ")[1]));
 
                 buildMenuUtils.openPlayerRemoveMenu(player, whoToRemove);
             }
@@ -96,7 +99,9 @@ public class buildInventoryListener implements Listener {
             switch (Objects.requireNonNull(e.getCurrentItem()).getType()) {
                 case BARRIER -> buildMenuUtils.openRemoveMenu(player);
                 case REDSTONE_BLOCK -> {
-                    String name = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName();
+                    String[] name_whole = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName().split(" ");
+                    String name = name_whole[1];
+                    getLogger().info(name_whole + " " + name);
                     OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
                     if (!po.hasPlayedBefore()) {
                         player.sendMessage(ChatColor.RED + name + " has never joined the server!");
