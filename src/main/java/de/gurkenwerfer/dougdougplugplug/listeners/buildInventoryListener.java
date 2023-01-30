@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -45,7 +46,7 @@ public class buildInventoryListener implements Listener {
                 case EMERALD_BLOCK -> {
                     String[] name_whole = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(4)).getItemMeta()).getDisplayName().split(" ");
                     String name = name_whole[1];
-                    OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(player.getUniqueId());
+                    OfflinePlayer po = this.plugin.getServer().getOfflinePlayer(UUID.fromString(name));
                     if (!po.hasPlayedBefore()) {
                         player.sendMessage(ChatColor.RED + name + " has never joined the server!");
                         return;
